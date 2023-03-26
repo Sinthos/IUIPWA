@@ -1,0 +1,18 @@
+/* Anpassen der Linkfarbe für das Header und Footer */
+.navbar a, .footer a {
+    color: #336EF4;
+}
+
+/* Anpassen der Linkfarbe für das Header und Footer beim Hovern */
+.navbar a:hover, .footer a:hover {
+    color: #ffffff;
+}
+
+/* Anpassen der Hintergrundfarbe des Footers */
+footer {
+    background-color: #F8F9FA;
+}
+
+.card {
+    margin-top: 3rem;
+}

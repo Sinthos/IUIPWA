@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<!-- Dokumenttyp HTML5 -->
+<html lang="de">
+<!-- Sprache Deutsch -->
+
+<head>
+  <meta charset="UTF-8" />
+  <!-- Zeichenkodierung -->
+  <title>IPWA Kleiderspende Portal</title>
+  <!-- Name in der Titelleiste -->
+  <link rel="stylesheet" href="styles.css" />
+  <!-- Einbinden CSS-Datei -->
+  <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+  <!-- Einbinden Vue.js-Bibliothek-->
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <!-- Responsive Design -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet" />
+  <!-- Einbinden Bootstrap-CSS-Frameworks -->
+  <script src="https://kit.fontawesome.com/94b0481ec3.js" crossorigin="anonymous"></script>
+  <!-- Einbinden der Icons von Fontawesome-->
+  <link rel="icon" type="image/x-icon" href="Bilder/favicon.png" />
+  <!-- Favicon -->
+</head>
+<!-- Ende Kopfbereich -->
+
+<body>
+<!-- Beginn Body -->
+<div id="app">
+  <!-- Einbinden der id "app" -->
+  <header>
+    <!-- Beginn Kopfbereich -->
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+      <!-- Beginn Bootstrap Navbar -->
+      <div class="container">
+        <!-- Beginn Logo Container -->
+        <a class="navbar-brand" href="#home"><img src="Bilder/shirt_logo.png" alt="Logo" width="24" height="24" alt="Kleiderspende-Portal" /></a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+          <!-- Beginn Menü Container -->
+          <ul class="navbar-nav">
+            <li class="nav-item">
+              <a class="nav-link btn btn-outline-primary me-2" href="#">Home</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link btn btn-outline-primary" href="#">Über uns</a>
+            </li>
+          </ul>
+        </div>
+        <!-- Ende Menü Container -->
+      </div>
+      <!-- Ende Logo Container -->
+    </nav>
+    <!-- Ende Bootstrap Navbar -->
+  </header>
+  <!-- Ende Kopfbereich -->
+
+  <main class="container mt-4">
+    <!-- Beginn Hauptteil -->
+    <div class="text-center col-md-6 col-lg-6 mx-auto">
+      <h1>Registriere deine Kleiderspende</h1>
+      <p>
+        Willkommen beim IPA Kleiderspende-Portal! Wir freuen uns, dass du dich für das Spenden von Kleidung für Menschen in Krisenregionen interessierst. Bitte fülle das untenstehende Formular aus, um deine Kleiderspende zu
+        registrieren.
+      </p>
+      <img src="Bilder/Titelbild.jpg" class="img-fluid mb-4" alt="Bild-Platzhalter" />
+    </div>
+
+    <div class="row">
+      <!-- Beginn Bootstrap-Reihe -->
+      <div class="col-md-6 col-lg-6 mx-auto">
+        <!-- Zentrierte Spalte mit Größenanpassung -->
+        <div class="card shadow">
+          <!-- Beginn Karte mit Schatten -->
+          <div class="card-body">
+            <!-- Beginn Hauptteil der Karte -->
+
+            <form id="spendeForm" @submit.prevent="registerDonation">
+              <!-- Beginn Formular -->
+              <div class="mb-3">
+                <label for="deliveryMethod" class="form-label">Liefermethode</label>
+                <!-- Menü: Liefermethode -->
+                <div class="input-group">
+                  <span class="input-group-text">
+                    <i class="fas fa-truck"></i>
+                  </span>
+                  <select class="form-select" id="deliveryMethod" v-model="deliveryMethod" required>
+                    <option value="office">Übergabe an der Geschäftsstelle</option>
+                    <option value="pickup">Abholung</option>
+                  </select>
+                </div>
+              </div>
+
+              <div v-if="deliveryMethod === 'pickup'" class="mb-3">
+                <label for="address" class="form-label">Abholadresse (Postleitzahl)</label>
+                <!-- Menü: Abholadresse, nur falls Abholung ausgewählt wird -->
+                <div class="input-group">
+                  <span class="input-group-text">
+                    <i class="fas fa-map-marker-alt"></i>
+                  </span>
+                  <input type="text" class="form-control" id="address" v-model="address" placeholder="Beispiel: 12345" required />
+                </div>
+              </div>
+
+              <div class="mb-3">
+                <label for="clothingType" class="form-label">Art der Kleidung</label>
+                <!-- Menü: Art der Kleidung -->
+                <div class="input-group">
+                  <span class="input-group-text">
+                    <i class="fas fa-tshirt"></i>
+                  </span>
+                  <input type="text" class="form-control" id="clothingType" v-model="clothingType" placeholder="Beispiel: Hose, Hemd, Socken" required />
+                </div>
+              </div>
+
+              <div class="mb-3">
+                <label for="crisisRegion" class="form-label">Krisengebiet</label>
+                <!-- Menü: Kriesengebiet -->
+                <div class="input-group">
+                  <span class="input-group-text">
+                    <i class="fas fa-exclamation-triangle"></i>
+                  </span>
+                  <select class="form-select" id="crisisRegion" v-model="crisisRegion" required>
+                    <option value="Südamerika">Südamerika</option>
+                    <option value="Afrika">Afrika</option>
+                    <!-- Hier sollten die realen Krisengebiete eingefügt werden -->
+                  </select>
+                </div>
+              </div>
+
+              <button type="submit" class="btn btn-primary">Spende registrieren</button>
+              <!-- Button: Absenden -->
+            </form>
+            <!-- Ende Formular -->
+            <div v-if="registrationSuccessful" class="mt-4">
+              <!-- Beginn Bestätigungsfeld nach erfolgreicher Registrierung -->
+              <h2>Vielen Dank für Ihre Spende!</h2>
+              <p>Hier sind die Details Ihrer Spende:</p>
+              <ul>
+                <li>Art der Kleidung: {{ registrationData.clothingType }}</li>
+                <li>Krisengebiet: {{ registrationData.crisisRegion }}</li>
+                <li>Datum: {{ registrationData.date.toLocaleDateString() }}</li>
+                <li>Uhrzeit: {{ registrationData.date.toLocaleTimeString() }}</li>
+                <li>Ort: {{ registrationData.location }}</li>
+              </ul>
+            </div>
+            <!-- Ende Bestätigungsfeld nach erfolgreicher Registrierung -->
+          </div>
+          <!-- Ende Hauptteil der Karte -->
+        </div>
+        <!-- Ende Karte mit Schatten -->
+      </div>
+      <!-- Ende Spalte mit Größenanpassung -->
+      <div class="col-md-6 col-lg-6 mx-auto">
+        <!-- Zentrierte Spalte mit Größenanpassung -->
+        <div class="card shadow">
+          <!-- Beginn Karte mit Schatten -->
+          <div class="card-body">
+            <!-- Beginn Hauptteil der Karte -->
+
+            <div class="col-lg-12">
+              <img v-if="!crisisRegion" src="Bilder/Region0.jpg" class="img-fluid mb-4 rounded" alt="Region 0" />
+              <!-- Bild keine Region ausgewählt -->
+              <img v-if="crisisRegion === 'Südamerika'" src="Bilder/Region1.jpg" class="img-fluid mb-4 rounded" alt="Südamerika" />
+              <!-- Bild Region1 ausgewählt -->
+              <img v-if="crisisRegion === 'Afrika'" src="Bilder/Region2.jpg" class="img-fluid mb-4 rounded" alt="Afrika" />
+              <!-- Bild Region2 ausgewählt -->
+            </div>
+          </div>
+          <!-- Ende Hauptteil der Karte -->
+        </div>
+        <!-- Ende Karte mit Schatten -->
+      </div>
+      <!-- Ende Spalte mit Größenanpassung -->
+    </div>
+    <!-- Ende Bootstrap-Reihe -->
+  </main>
+  <!-- Ende Hauptteil -->
+
+  <footer class="text-center mt-4">
+    <!-- Beginn Footer zentriert -->
+    <p>
+      &copy; 2023 Kleiderspende-Portal. Alle Rechte vorbehalten. <a href="https://www.youtube.com/watch?v=dQw4w9WgXcQ" class="btn btn-outline-primary btn-sm">Datenschutz</a>
+      <a href="https://www.youtube.com/watch?v=dQw4w9WgXcQ" class="btn btn-outline-primary btn-sm">Impressum</a>
+    </p>
+  </footer>
+  <!-- Ende Footer -->
+</div>
+<!-- Ende app.js Datei -->
+
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js" integrity="sha384-oBqDVmMz9ATKxIep9tiCxS/Z9fNfEXiDAYTujMAeBAsjFuCZSmKbSSUnQlmh/jp3" crossorigin="anonymous"></script>
+<!-- Einbindung Popper.js -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.min.js" integrity="sha384-mQ93GR66B00ZXjt0YO5KlohRA5SY2XofN4zfuZxLkoj1gXtW8ANNCe9d5Y3eG5eD" crossorigin="anonymous"></script>
+<!-- Einbindung Bootstrap-JavaScript-Bibliothek -->
+<script src="app.js"></script>
+<!-- Einbindung JavaScript-Datei "app.js" -->
+</body>
+<!-- Ende Body -->
+</html>
